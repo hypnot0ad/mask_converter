@@ -2,7 +2,6 @@
 ###IP Address conversion script ###
 
 import sys, getopt # Required for argv
-#from netaddr import IPAddress # Required for mask conversion
 
 #########################################################################
 ###  CONSTANTS  ###
