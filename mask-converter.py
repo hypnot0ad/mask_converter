@@ -1,5 +1,5 @@
 #!/usr/bin/python
-###IP Address conversion script ###
+###MAC Address conversion script ###
 
 import sys, getopt # Required for argv
 
