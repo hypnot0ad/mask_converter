@@ -26,11 +26,11 @@ for opt, arg in opts:
         print 'mask-converter.py -s <Source Format> -d <Destination Format> -m <Source Mask>'
         sys.exit()
     elif opt in ("-s", "--src-format"):
-        src_format = arg
+        src_format = str(arg)
     elif opt in ("-d", "--dest-format"):
-        dst_format = arg
+        dst_format = str(arg)
     elif opt in ("-m", "--src-mask"):
-        src_mask = arg
+        src_mask = str(arg)
 
 #########################################################################
 
@@ -42,12 +42,24 @@ def subnetTocidr(src_mask):
     return new_cidr
 
 #########################################################################
+### Convert CIDR prefix (/32) into subnetmask (255.255.255.255) ###
+#########################################################################
+def cidrTosubnet(src_mask):
+    #new_subnet = 0xffffffff ^ (1 << 32 - int(src_mask)) - 1
+    new_subnet = '.'.join([str((0xffffffff << (32 - int(src_mask)) >> i) & 0xff) for i in [24, 16, 8, 0]])
+    return new_subnet
+
+#########################################################################
 ### Run the script and all its routines ###
 #########################################################################
 def main():
     if dst_format == "cidr":
 	    new_cidr = subnetTocidr(src_mask)
 	    print src_mask + " --> " + str(new_cidr)
+
+    if dst_format == "subnet":
+        new_subnet = cidrTosubnet(src_mask)
+        print src_mask + " --> " + str(new_subnet)
 
 if __name__ == '__main__':
     main()
